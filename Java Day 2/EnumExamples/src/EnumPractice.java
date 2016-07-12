@@ -12,6 +12,6 @@ public class EnumPractice
 
         System.out.println("Work starts on " + startDay);
         System.out.println("Work ends on " + endDay);
-        System.out.println("I was born in " + birthMonth);
+        System.out.println("I was born in " + birthMonth + " and it is month " + birthMonth.getMonthNumber());
     }
 }
