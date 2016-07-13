@@ -14,16 +14,16 @@ public class JDBCHomework1 {
             //Insert
             String insert = "insert into EmployeeInfo values(?, ?, ?)";
             //update
-            String update = "update EmployeeInfo set id = 201 where id = 102";
-            String del = "delete from EmployeeInfo where id = 103";
+            String update = "update EmployeeInfo set id = 211 where id = 111";
+            String del = "delete from EmployeeInfo where id = 112";
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             //Create Connection
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/Employee", "Emp", "emp");
             //Create statements
             PreparedStatement pstmt = con.prepareStatement(insert);
             Statement stmt = con.createStatement();
-            pstmt.setInt(1, 100);
-            pstmt.setString(2, "James");
+            pstmt.setInt(1, 116);
+            pstmt.setString(2, "John");
             pstmt.setString(3, "Delhi");
             
             int row = pstmt.executeUpdate();
@@ -32,16 +32,29 @@ public class JDBCHomework1 {
             stmt.executeUpdate(del);
             
             //get table info
-             DatabaseMetaData metadata = con.getMetaData();
-	     ResultSet resultSet = metadata.getColumns(null, null, "EmployeeInfo", null);
-	     while (resultSet.next()) {
-		String name = resultSet.getString("COLUMN_NAME");
-		String type = resultSet.getString("TYPE_NAME");
-		int size = resultSet.getInt("COLUMN_SIZE");
-		
-		System.out.println("Column name: [" + name + "]; type: [" + type 
-		    + "]; size: [" + size + "]");
+            
+                String select = "select * from EmployeeInfo";
+                Statement stmt2 = con.createStatement();
+                ResultSet rset1 = stmt2.executeQuery(select);
+                while(rset1.next()){
+                int id = rset1.getInt(1);
+                String name = rset1.getString(2);
+                String address = rset1.getString(3);
+                
+                System.out.println("ID: " + id + "\tName: " + name + "\tCity: " + address);
+            }
+                
+                DatabaseMetaData metadata = con.getMetaData();
+                ResultSetMetaData resultSet = rset1.getMetaData();
+                int x = 1;
+                System.out.println("Total column count: " + resultSet.getColumnCount());
+	     while (x <= resultSet.getColumnCount()) {
+		String name = resultSet.getColumnName(x);
+                String type = resultSet.getColumnTypeName(x);
+		System.out.println(name + " " + type);
+                x++;
 	    }
+             System.out.println("");
             con.close();
         } 
         catch(ClassNotFoundException ce){System.out.println(ce);}
